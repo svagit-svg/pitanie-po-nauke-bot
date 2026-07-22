@@ -3,6 +3,7 @@ name: Auto publish
 on:
   schedule:
     - cron: "0 6 * * *"
+    - cron: "0 13 * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -20,7 +21,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Random delay within the 09:00-10:00 MSK window
+      - name: Random delay within the triggering hour (09-10 or 16-17 MSK)
         run: sleep $((RANDOM % 3600))
 
       - name: Publish next queued post
