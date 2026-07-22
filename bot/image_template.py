@@ -54,7 +54,7 @@ def _fit_headline(draw, text, max_width, max_height):
     return font, _wrap(draw, text, font, max_width), draw.textbbox((0, 0), "Ag", font=font)[3] * 1.25
 
 
-def render_cover(question, category, evidence, out_path):
+def render_cover(question, category, out_path):
     img = _vertical_gradient(SIZE, BG_TOP, BG_BOTTOM)
     draw = ImageDraw.Draw(img)
     content_width = SIZE - 2 * MARGIN
@@ -80,7 +80,7 @@ def render_cover(question, category, evidence, out_path):
     draw.text((tag_box[0] + pad_x, tag_box[1] + pad_y - 2), tag_text, font=tag_font, fill=(255, 255, 255))
 
     headline_top = 300
-    headline_bottom = 820
+    headline_bottom = 900
     font, lines, line_height = _fit_headline(
         draw, question, content_width, headline_bottom - headline_top
     )
@@ -90,11 +90,8 @@ def render_cover(question, category, evidence, out_path):
         draw.text((MARGIN, y), line, font=font, fill=INK)
         y += line_height
 
-    rule_y = 900
+    rule_y = 960
     draw.line([(MARGIN, rule_y), (SIZE - MARGIN, rule_y)], fill=ACCENT, width=4)
-
-    evidence_font = ImageFont.truetype(FONT_REGULAR, 30)
-    draw.text((MARGIN, rule_y + 30), f"Уровень доказательности: {evidence}", font=evidence_font, fill=MUTED)
 
     img.save(out_path)
     return out_path
@@ -253,7 +250,6 @@ if __name__ == "__main__":
     render_cover(
         question="Правда ли, что яйца повышают холестерин и вредят сердцу?",
         category="Миф или правда?",
-        evidence="высокий",
         out_path="covers/001_eggs_cholesterol.png",
     )
     print("saved covers/001_eggs_cholesterol.png")
