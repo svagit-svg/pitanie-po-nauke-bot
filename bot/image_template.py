@@ -41,9 +41,9 @@ def _wrap(draw, text, font, max_width):
     return lines
 
 
-def _fit_headline(draw, text, max_width, max_height):
-    size = 78
-    while size > 40:
+def _fit_headline(draw, text, max_width, max_height, start_size=78, min_size=40):
+    size = start_size
+    while size > min_size:
         font = ImageFont.truetype(FONT_BOLD, size)
         lines = _wrap(draw, text, font, max_width)
         line_height = draw.textbbox((0, 0), "Ag", font=font)[3] * 1.25
@@ -267,6 +267,122 @@ def render_avatar_light(out_path, monogram="ПН", size=512):
         outline=ACCENT,
         width=max(2, size // 128),
     )
+    img.save(out_path)
+    return out_path
+
+
+def render_chat_meme(
+    messages,
+    out_path,
+    accent=ACCENT,
+    kicker="ПИТАНИЕ ПО НАУКЕ",
+    size=SIZE,
+):
+    bg = (241, 241, 246)
+    img = Image.new("RGB", (size, size), bg)
+    draw = ImageDraw.Draw(img)
+
+    kicker_font = ImageFont.truetype(FONT_BOLD, 30)
+    x = MARGIN
+    for ch in kicker:
+        draw.text((x, 50), ch, font=kicker_font, fill=accent)
+        x += draw.textbbox((0, 0), ch, font=kicker_font)[2] + 5
+
+    tag_font = ImageFont.truetype(FONT_BOLD, 26)
+    tag_text = "ПЕРЕПИСКА"
+    tag_w = draw.textbbox((0, 0), tag_text, font=tag_font)[2]
+    pad_x, pad_y = 20, 11
+    tag_box = [
+        size - MARGIN - tag_w - 2 * pad_x,
+        42,
+        size - MARGIN,
+        42 + 26 + 2 * pad_y,
+    ]
+    draw.rounded_rectangle(tag_box, radius=(tag_box[3] - tag_box[1]) // 2, fill=accent)
+    draw.text((tag_box[0] + pad_x, tag_box[1] + pad_y - 1), tag_text, font=tag_font, fill=(255, 255, 255))
+
+    draw.line([(MARGIN, 112), (size - MARGIN, 112)], fill=(220, 220, 227), width=2)
+
+    bubble_font = ImageFont.truetype(FONT_REGULAR, 38)
+    max_bubble_width = int(size * 0.66)
+    pad_x, pad_y = 30, 22
+    y = 160
+
+    total_height_needed = sum(
+        (len(_wrap(draw, text, bubble_font, max_bubble_width - 2 * pad_x)) *
+         draw.textbbox((0, 0), "Ag", font=bubble_font)[3] * 1.3 + 2 * pad_y + 24)
+        for text, _ in messages
+    )
+    if total_height_needed > size - y - MARGIN:
+        bubble_font = ImageFont.truetype(FONT_REGULAR, 32)
+        pad_x, pad_y = 24, 18
+
+    line_height = draw.textbbox((0, 0), "Ag", font=bubble_font)[3] * 1.3
+
+    for text, sender in messages:
+        lines = _wrap(draw, text, bubble_font, max_bubble_width - 2 * pad_x)
+        bubble_w = max(draw.textbbox((0, 0), line, font=bubble_font)[2] for line in lines) + 2 * pad_x
+        bubble_h = len(lines) * line_height + 2 * pad_y - (line_height - draw.textbbox((0, 0), "Ag", font=bubble_font)[3])
+
+        if sender == "me":
+            x1 = size - MARGIN - bubble_w
+            fill = accent
+            text_color = (255, 255, 255)
+        else:
+            x1 = MARGIN
+            fill = (228, 228, 233)
+            text_color = (30, 30, 34)
+
+        draw.rounded_rectangle([x1, y, x1 + bubble_w, y + bubble_h], radius=30, fill=fill)
+        ty = y + pad_y - (line_height - draw.textbbox((0, 0), "Ag", font=bubble_font)[3]) / 2
+        for line in lines:
+            draw.text((x1 + pad_x, ty), line, font=bubble_font, fill=text_color)
+            ty += line_height
+        y += bubble_h + 24
+
+    img.save(out_path)
+    return out_path
+
+
+def render_expectation_reality(
+    expectation,
+    reality,
+    out_path,
+    accent=ACCENT,
+    bg_top=BG_TOP,
+    bg_bottom=BG_BOTTOM,
+    kicker="ПИТАНИЕ ПО НАУКЕ",
+    size=SIZE,
+):
+    img = _vertical_gradient(size, bg_top, bg_bottom)
+    draw = ImageDraw.Draw(img)
+    content_width = size - 2 * MARGIN
+
+    kicker_font = ImageFont.truetype(FONT_BOLD, 30)
+    x = MARGIN
+    for ch in kicker:
+        draw.text((x, MARGIN), ch, font=kicker_font, fill=accent)
+        x += draw.textbbox((0, 0), ch, font=kicker_font)[2] + 5
+
+    mid_y = size // 2
+    label_font = ImageFont.truetype(FONT_BOLD, 32)
+
+    draw.text((MARGIN, 200), "ОЖИДАНИЕ", font=label_font, fill=accent)
+    font1, lines1, lh1 = _fit_headline(draw, expectation, content_width, mid_y - 40 - 260, start_size=58)
+    y = 260
+    for line in lines1:
+        draw.text((MARGIN, y), line, font=font1, fill=INK)
+        y += lh1
+
+    draw.line([(MARGIN, mid_y), (size - MARGIN, mid_y)], fill=accent, width=3)
+
+    draw.text((MARGIN, mid_y + 40), "РЕАЛЬНОСТЬ", font=label_font, fill=accent)
+    font2, lines2, lh2 = _fit_headline(draw, reality, content_width, size - MARGIN - (mid_y + 100), start_size=58)
+    y = mid_y + 100
+    for line in lines2:
+        draw.text((MARGIN, y), line, font=font2, fill=INK)
+        y += lh2
+
     img.save(out_path)
     return out_path
 
