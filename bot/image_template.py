@@ -54,16 +54,23 @@ def _fit_headline(draw, text, max_width, max_height):
     return font, _wrap(draw, text, font, max_width), draw.textbbox((0, 0), "Ag", font=font)[3] * 1.25
 
 
-def render_cover(question, category, out_path):
-    img = _vertical_gradient(SIZE, BG_TOP, BG_BOTTOM)
+def render_cover(
+    question,
+    category,
+    out_path,
+    accent=ACCENT,
+    bg_top=BG_TOP,
+    bg_bottom=BG_BOTTOM,
+    kicker="ПИТАНИЕ ПО НАУКЕ",
+):
+    img = _vertical_gradient(SIZE, bg_top, bg_bottom)
     draw = ImageDraw.Draw(img)
     content_width = SIZE - 2 * MARGIN
 
     kicker_font = ImageFont.truetype(FONT_BOLD, 32)
-    kicker = "ПИТАНИЕ ПО НАУКЕ"
     x = MARGIN
     for ch in kicker:
-        draw.text((x, MARGIN), ch, font=kicker_font, fill=ACCENT)
+        draw.text((x, MARGIN), ch, font=kicker_font, fill=accent)
         x += draw.textbbox((0, 0), ch, font=kicker_font)[2] + 6
 
     tag_font = ImageFont.truetype(FONT_BOLD, 30)
@@ -76,7 +83,7 @@ def render_cover(question, category, out_path):
         SIZE - MARGIN,
         MARGIN - 8 + 30 + 2 * pad_y,
     ]
-    draw.rounded_rectangle(tag_box, radius=(tag_box[3] - tag_box[1]) // 2, fill=ACCENT)
+    draw.rounded_rectangle(tag_box, radius=(tag_box[3] - tag_box[1]) // 2, fill=accent)
     draw.text((tag_box[0] + pad_x, tag_box[1] + pad_y - 2), tag_text, font=tag_font, fill=(255, 255, 255))
 
     headline_top = 300
@@ -91,7 +98,7 @@ def render_cover(question, category, out_path):
         y += line_height
 
     rule_y = 960
-    draw.line([(MARGIN, rule_y), (SIZE - MARGIN, rule_y)], fill=ACCENT, width=4)
+    draw.line([(MARGIN, rule_y), (SIZE - MARGIN, rule_y)], fill=accent, width=4)
 
     img.save(out_path)
     return out_path
@@ -194,23 +201,41 @@ def _leaf_image(diameter, color=(248, 246, 240, 255)):
     return leaf.rotate(-45, expand=True, resample=Image.BICUBIC)
 
 
-def render_avatar_leaf_text(out_path, size=512):
-    dark = tuple(max(0, c - 25) for c in ACCENT)
-    img = _vertical_gradient(size, ACCENT, dark).resize((size, size)).convert("RGBA")
+def _rings_image(diameter, color=(248, 246, 240, 255)):
+    r = diameter // 2
+    sep = int(r * 1.05)
+    w, h = 2 * r + sep, 2 * r
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    stroke = max(4, diameter // 16)
+    draw.ellipse([0, 0, 2 * r, 2 * r], outline=color, width=stroke)
+    draw.ellipse([sep, 0, sep + 2 * r, 2 * r], outline=color, width=stroke)
+    return img
+
+
+def render_avatar_leaf_text(
+    out_path,
+    size=512,
+    accent=ACCENT,
+    lines=("ПИТАНИЕ", "ПО НАУКЕ"),
+    icon="leaf",
+    font_scale=0.10,
+):
+    dark = tuple(max(0, c - 25) for c in accent)
+    img = _vertical_gradient(size, accent, dark).resize((size, size)).convert("RGBA")
     draw = ImageDraw.Draw(img)
 
-    lines = ["ПИТАНИЕ", "ПО НАУКЕ"]
-    font = ImageFont.truetype(FONT_BOLD, int(size * 0.10))
+    font = ImageFont.truetype(FONT_BOLD, int(size * font_scale))
     line_height = draw.textbbox((0, 0), "Ag", font=font)[3] * 1.15
 
-    leaf = _leaf_image(int(size * 0.22))
+    icon_img = _leaf_image(int(size * 0.22)) if icon == "leaf" else _rings_image(int(size * 0.24))
     gap = int(size * 0.045)
-    block_height = leaf.height + gap + line_height * len(lines)
+    block_height = icon_img.height + gap + line_height * len(lines)
     top = (size - block_height) / 2
 
-    img.paste(leaf, ((size - leaf.width) // 2, int(top)), leaf)
+    img.paste(icon_img, ((size - icon_img.width) // 2, int(top)), icon_img)
 
-    y = top + leaf.height + gap
+    y = top + icon_img.height + gap
     for line in lines:
         bbox = draw.textbbox((0, 0), line, font=font)
         w = bbox[2] - bbox[0]

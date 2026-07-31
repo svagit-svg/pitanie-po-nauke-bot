@@ -1,0 +1,43 @@
+name: Auto publish (Близко)
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+    - cron: "0 13 * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: auto-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+
+      - name: Random delay within the triggering hour (09-10 or 16-17 MSK)
+        run: sleep $((RANDOM % 3600))
+
+      - name: Publish next queued post
+        env:
+          BLIZKO_BOT_TOKEN: ${{ secrets.BLIZKO_BOT_TOKEN }}
+          BLIZKO_CHANNEL: ${{ secrets.BLIZKO_CHANNEL }}
+        run: python scripts/auto_publish_blizko.py
+
+      - name: Commit updated queue
+        run: |
+          git config user.name "blizko-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add channels/blizko/queue.json
+          git diff --cached --quiet || git commit -m "chore: publish next blizko post"
+          git push
