@@ -5,6 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from bot.telegram_client import send_photo
+from bot.validate import validate_caption
 
 BASE = Path(__file__).resolve().parent.parent / "channels" / "blizko"
 QUEUE_PATH = BASE / "queue.json"
@@ -21,6 +22,7 @@ def main():
 
     slug = queue.pop(0)
     caption = (BASE / "posts" / f"{slug}_caption.html").read_text(encoding="utf-8")
+    validate_caption(caption)
 
     result = send_photo(str(BASE / "covers" / f"{slug}.png"), caption, chat=CHANNEL, bot_token=BOT_TOKEN)
     chat_username = result["result"]["chat"].get("username")
