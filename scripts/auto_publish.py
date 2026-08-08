@@ -13,8 +13,8 @@ def main():
     queue = json.loads(QUEUE_PATH.read_text(encoding="utf-8"))
 
     if not queue:
-        print("Очередь пуста — публиковать нечего")
-        return
+        print("::error::Queue is empty — nothing was published. Refill queue.json.")
+        sys.exit(1)
 
     slug = queue.pop(0)
     caption = Path(f"posts/{slug}_caption.html").read_text(encoding="utf-8")
