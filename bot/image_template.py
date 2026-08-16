@@ -352,6 +352,8 @@ def render_expectation_reality(
     bg_top=BG_TOP,
     bg_bottom=BG_BOTTOM,
     kicker="ПИТАНИЕ ПО НАУКЕ",
+    label1="ОЖИДАНИЕ",
+    label2="РЕАЛЬНОСТЬ",
     size=SIZE,
 ):
     img = _vertical_gradient(size, bg_top, bg_bottom)
@@ -367,7 +369,7 @@ def render_expectation_reality(
     mid_y = size // 2
     label_font = ImageFont.truetype(FONT_BOLD, 32)
 
-    draw.text((MARGIN, 200), "ОЖИДАНИЕ", font=label_font, fill=accent)
+    draw.text((MARGIN, 200), label1.upper(), font=label_font, fill=accent)
     font1, lines1, lh1 = _fit_headline(draw, expectation, content_width, mid_y - 40 - 260, start_size=58)
     y = 260
     for line in lines1:
@@ -376,7 +378,7 @@ def render_expectation_reality(
 
     draw.line([(MARGIN, mid_y), (size - MARGIN, mid_y)], fill=accent, width=3)
 
-    draw.text((MARGIN, mid_y + 40), "РЕАЛЬНОСТЬ", font=label_font, fill=accent)
+    draw.text((MARGIN, mid_y + 40), label2.upper(), font=label_font, fill=accent)
     font2, lines2, lh2 = _fit_headline(draw, reality, content_width, size - MARGIN - (mid_y + 100), start_size=58)
     y = mid_y + 100
     for line in lines2:
