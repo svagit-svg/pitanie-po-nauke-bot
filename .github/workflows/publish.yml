@@ -2,12 +2,12 @@ name: Auto publish
 
 on:
   schedule:
-    - cron: "0 6 * * *"
-    - cron: "0 13 * * *"
+    - cron: "12 6 * * *"
+    - cron: "18 13 * * *"
   workflow_dispatch: {}
 
 concurrency:
-  group: auto-publish
+  group: auto-publish-pitanie
   cancel-in-progress: false
 
 permissions:

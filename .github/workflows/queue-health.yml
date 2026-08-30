@@ -2,7 +2,7 @@ name: Queue health check
 
 on:
   schedule:
-    - cron: "0 10 * * *"
+    - cron: "42 10 * * *"
   workflow_dispatch: {}
 
 jobs:
