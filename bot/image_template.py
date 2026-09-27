@@ -252,6 +252,74 @@ def render_avatar_leaf_text(
     return out_path
 
 
+def render_wide_cover(
+    out_path,
+    lines=("ПИТАНИЕ", "ПО НАУКЕ"),
+    tagline="Мифы и научные данные о еде — без рекламы",
+    accent=ACCENT,
+    icon="leaf",
+    width=1590,
+    height=400,
+):
+    dark = tuple(max(0, c - 25) for c in accent)
+    img = Image.new("RGB", (width, height), accent)
+    draw = ImageDraw.Draw(img)
+    for y in range(height):
+        t = y / (height - 1)
+        color = tuple(int(accent[i] + (dark[i] - accent[i]) * t) for i in range(3))
+        draw.line([(0, y), (width, y)], fill=color)
+    img = img.convert("RGBA")
+    draw = ImageDraw.Draw(img)
+
+    # VK crops covers much tighter than the full upload on mobile (a short
+    # horizontal strip) and desktop (a narrower width) than the nominal
+    # 1590x400 canvas, so all content must sit inside a centered safe zone
+    # well clear of every edge rather than spanning the full canvas.
+    icon_diameter = int(height * 0.30)
+    icon_img = _leaf_image(icon_diameter) if icon == "leaf" else _rings_image(int(height * 0.33))
+
+    text_col_width = int(width * 0.30)
+    horizontal_gap = int(height * 0.15)
+
+    title_font = ImageFont.truetype(FONT_BOLD, int(height * 0.16))
+    line_height = draw.textbbox((0, 0), "Ag", font=title_font)[3] * 1.1
+    tag_font = ImageFont.truetype(FONT_REGULAR, int(height * 0.06))
+    tag_lines = _wrap(draw, tagline, tag_font, text_col_width) if tagline else []
+    tag_line_height = draw.textbbox((0, 0), "Ag", font=tag_font)[3] * 1.3
+    tag_gap = int(height * 0.05)
+
+    text_block_height = line_height * len(lines)
+    if tag_lines:
+        text_block_height += tag_gap + tag_line_height * len(tag_lines)
+
+    title_width = max(draw.textbbox((0, 0), line, font=title_font)[2] for line in lines)
+    text_width = max(title_width, max((draw.textbbox((0, 0), l, font=tag_font)[2] for l in tag_lines), default=0))
+
+    group_width = icon_img.width + horizontal_gap + text_width
+    group_height = max(icon_img.height, text_block_height)
+    group_x = (width - group_width) / 2
+    group_y = (height - group_height) / 2
+
+    icon_x = int(group_x)
+    icon_y = int(group_y + (group_height - icon_img.height) / 2)
+    img.paste(icon_img, (icon_x, icon_y), icon_img)
+
+    text_x = icon_x + icon_img.width + horizontal_gap
+    y = group_y + (group_height - text_block_height) / 2
+    for line in lines:
+        draw.text((text_x, y), line, font=title_font, fill=(248, 246, 240))
+        y += line_height
+
+    if tag_lines:
+        y += tag_gap
+        for line in tag_lines:
+            draw.text((text_x, y), line, font=tag_font, fill=(230, 233, 226))
+            y += tag_line_height
+
+    img.convert("RGB").save(out_path)
+    return out_path
+
+
 def render_avatar_light(out_path, monogram="ПН", size=512):
     img = Image.new("RGB", (size, size), BG_TOP)
     draw = ImageDraw.Draw(img)

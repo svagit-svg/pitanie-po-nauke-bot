@@ -66,6 +66,9 @@ def post_to_wall(message, photo_path=None, group_id=None, access_token=None, fro
 
     params = {"owner_id": f"-{gid}", "from_group": from_group, "message": message}
     if photo_path:
-        params["attachment"] = upload_wall_photo(photo_path, group_id=gid, access_token=access_token)
+        try:
+            params["attachment"] = upload_wall_photo(photo_path, group_id=gid, access_token=access_token)
+        except Exception as exc:
+            print(f"::warning::VK photo upload failed, posting text-only — {exc}")
 
     return _call("wall.post", access_token=access_token, **params)
