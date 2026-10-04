@@ -59,12 +59,14 @@ def upload_wall_photo(photo_path, group_id=None, access_token=None):
     return f"photo{photo_obj['owner_id']}_{photo_obj['id']}"
 
 
-def post_to_wall(message, photo_path=None, group_id=None, access_token=None, from_group=1):
+def post_to_wall(message, photo_path=None, group_id=None, access_token=None, from_group=1, publish_date=None):
     gid = group_id or GROUP_ID
     if not gid:
         raise RuntimeError("No VK group id: pass group_id= or set VK_GROUP_ID")
 
     params = {"owner_id": f"-{gid}", "from_group": from_group, "message": message}
+    if publish_date:
+        params["publish_date"] = int(publish_date)
     if photo_path:
         try:
             params["attachment"] = upload_wall_photo(photo_path, group_id=gid, access_token=access_token)
