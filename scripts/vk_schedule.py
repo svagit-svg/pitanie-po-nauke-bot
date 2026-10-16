@@ -1,6 +1,7 @@
 import datetime as dt
 import os
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -16,7 +17,8 @@ HOURS = (8, 16)
 def main():
     args = sys.argv[1:]
     blizko = "--blizko" in args
-    args = [a for a in args if a != "--blizko"]
+    offset = next((int(a.split("=")[1]) for a in args if a.startswith("--offset=")), 0)
+    args = [a for a in args if a != "--blizko" and not a.startswith("--offset=")]
     start = dt.date.fromisoformat(args[0])
     slugs = args[1:]
 
@@ -28,12 +30,13 @@ def main():
             "access_token": os.environ["BLIZKO_VK_ACCESS_TOKEN"],
         }
 
-    for i, slug in enumerate(slugs):
+    for i, slug in enumerate(slugs, start=offset):
         day = start + dt.timedelta(days=i // len(HOURS))
         when = dt.datetime(day.year, day.month, day.day, HOURS[i % len(HOURS)], tzinfo=MSK)
         caption = (posts_dir / f"{slug}_caption.html").read_text(encoding="utf-8")
         result = post_to_wall(html_caption_to_vk_text(caption), publish_date=when.timestamp(), **creds)
         print(f"{slug} -> {when.isoformat()} (post_id {result['post_id']})")
+        time.sleep(1.5)
 
 
 if __name__ == "__main__":
