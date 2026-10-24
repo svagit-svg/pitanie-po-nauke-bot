@@ -6,7 +6,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from bot.telegram_client import send_photo
 from bot.validate import validate_caption
 from bot.vk_client import html_caption_to_vk_text, post_to_wall
-from scripts.build_vk_cards import card_url
 
 QUEUE_PATH = Path(__file__).resolve().parent.parent / "queue.json"
 
@@ -29,9 +28,7 @@ def main():
     print(f"Опубликовано в Telegram: https://t.me/{chat_username}/{msg_id}")
 
     try:
-        vk_result = post_to_wall(
-            html_caption_to_vk_text(caption), photo_path=cover_path, link_url=card_url("pitanie", slug)
-        )
+        vk_result = post_to_wall(html_caption_to_vk_text(caption), photo_path=cover_path)
         print(f"Опубликовано в VK: post_id {vk_result.get('post_id')}")
     except Exception as exc:
         print(f"::warning::VK publish failed, Telegram post already sent — {exc}")

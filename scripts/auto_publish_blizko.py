@@ -7,7 +7,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from bot.telegram_client import send_photo
 from bot.validate import validate_caption
 from bot.vk_client import html_caption_to_vk_text, post_to_wall
-from scripts.build_vk_cards import card_url
 
 BASE = Path(__file__).resolve().parent.parent / "channels" / "blizko"
 QUEUE_PATH = BASE / "queue.json"
@@ -40,7 +39,6 @@ def main():
             photo_path=cover_path,
             group_id=VK_GROUP_ID,
             access_token=VK_ACCESS_TOKEN,
-            link_url=card_url("blizko", slug),
         )
         print(f"Опубликовано в VK: post_id {vk_result.get('post_id')}")
     except Exception as exc:

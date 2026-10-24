@@ -36,12 +36,34 @@ def _call(method, access_token=None, **params):
     return data["response"]
 
 
+def _upload_via_messages(photo_path, access_token=None):
+    # Group tokens are barred from photos.getWallUploadServer, but the messages
+    # upload flow is allowed and its photo id is accepted as a wall attachment.
+    upload_server = _call("photos.getMessagesUploadServer", access_token=access_token)
+    with open(photo_path, "rb") as photo:
+        resp = requests.post(upload_server["upload_url"], files={"photo": photo}, timeout=120)
+    resp.raise_for_status()
+    uploaded = resp.json()
+    saved = _call(
+        "photos.saveMessagesPhoto",
+        access_token=access_token,
+        photo=uploaded["photo"],
+        server=uploaded["server"],
+        hash=uploaded["hash"],
+    )
+    photo_obj = saved[0]
+    return f"photo{photo_obj['owner_id']}_{photo_obj['id']}"
+
+
 def upload_wall_photo(photo_path, group_id=None, access_token=None):
     gid = group_id or GROUP_ID
     if not gid:
         raise RuntimeError("No VK group id: pass group_id= or set VK_GROUP_ID")
 
-    upload_server = _call("photos.getWallUploadServer", access_token=access_token, group_id=gid)
+    try:
+        upload_server = _call("photos.getWallUploadServer", access_token=access_token, group_id=gid)
+    except RuntimeError:
+        return _upload_via_messages(photo_path, access_token=access_token)
 
     with open(photo_path, "rb") as photo:
         resp = requests.post(upload_server["upload_url"], files={"photo": photo}, timeout=120)
@@ -60,7 +82,7 @@ def upload_wall_photo(photo_path, group_id=None, access_token=None):
     return f"photo{photo_obj['owner_id']}_{photo_obj['id']}"
 
 
-def post_to_wall(message, photo_path=None, group_id=None, access_token=None, from_group=1, publish_date=None, link_url=None):
+def post_to_wall(message, photo_path=None, group_id=None, access_token=None, from_group=1, publish_date=None):
     gid = group_id or GROUP_ID
     if not gid:
         raise RuntimeError("No VK group id: pass group_id= or set VK_GROUP_ID")
@@ -72,10 +94,6 @@ def post_to_wall(message, photo_path=None, group_id=None, access_token=None, fro
         try:
             params["attachment"] = upload_wall_photo(photo_path, group_id=gid, access_token=access_token)
         except Exception as exc:
-            print(f"::warning::VK photo upload failed — {exc}")
-    # Group tokens cannot upload wall photos; a link to the post's card page
-    # makes VK show the cover as a link preview instead.
-    if link_url and "attachment" not in params:
-        params["attachment"] = link_url
+            print(f"::warning::VK photo upload failed, posting text-only — {exc}")
 
     return _call("wall.post", access_token=access_token, **params)
