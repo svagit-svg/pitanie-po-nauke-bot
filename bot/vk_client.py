@@ -36,12 +36,35 @@ def _call(method, access_token=None, **params):
     return data["response"]
 
 
+def _upload_via_messages(photo_path, access_token=None):
+    # Group tokens are barred from photos.getWallUploadServer, but the messages
+    # upload flow is allowed and its photo id is accepted as a wall attachment.
+    upload_server = _call("photos.getMessagesUploadServer", access_token=access_token)
+    with open(photo_path, "rb") as photo:
+        resp = requests.post(upload_server["upload_url"], files={"photo": photo}, timeout=120)
+    resp.raise_for_status()
+    uploaded = resp.json()
+    saved = _call(
+        "photos.saveMessagesPhoto",
+        access_token=access_token,
+        photo=uploaded["photo"],
+        server=uploaded["server"],
+        hash=uploaded["hash"],
+    )
+    photo_obj = saved[0]
+    return f"photo{photo_obj['owner_id']}_{photo_obj['id']}"
+
+
 def upload_wall_photo(photo_path, group_id=None, access_token=None):
     gid = group_id or GROUP_ID
     if not gid:
         raise RuntimeError("No VK group id: pass group_id= or set VK_GROUP_ID")
 
-    upload_server = _call("photos.getWallUploadServer", access_token=access_token, group_id=gid)
+    try:
+        upload_server = _call("photos.getWallUploadServer", access_token=access_token, group_id=gid)
+    except RuntimeError:
+        return _upload_via_messages(photo_path, access_token=access_token)
+
     with open(photo_path, "rb") as photo:
         resp = requests.post(upload_server["upload_url"], files={"photo": photo}, timeout=120)
     resp.raise_for_status()
