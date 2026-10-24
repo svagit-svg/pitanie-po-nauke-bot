@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 from bot.vk_client import html_caption_to_vk_text, post_to_wall
+from scripts.build_vk_cards import card_url
 
 MSK = dt.timezone(dt.timedelta(hours=3))
 HOURS = (8, 16)
@@ -34,7 +35,8 @@ def main():
         day = start + dt.timedelta(days=i // len(HOURS))
         when = dt.datetime(day.year, day.month, day.day, HOURS[i % len(HOURS)], tzinfo=MSK)
         caption = (posts_dir / f"{slug}_caption.html").read_text(encoding="utf-8")
-        result = post_to_wall(html_caption_to_vk_text(caption), publish_date=when.timestamp(), **creds)
+        link = card_url("blizko" if blizko else "pitanie", slug)
+        result = post_to_wall(html_caption_to_vk_text(caption), publish_date=when.timestamp(), link_url=link, **creds)
         print(f"{slug} -> {when.isoformat()} (post_id {result['post_id']})")
         time.sleep(1.5)
 
