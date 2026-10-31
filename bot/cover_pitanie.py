@@ -106,7 +106,8 @@ def render_cover_pitanie(question, category, out_path):
 
     foot = ImageFont.truetype(FONT_REGULAR, 50)
     d.line([(M, S * 0.86), (M + 120, S * 0.86)], fill=LEAF_TOP, width=8)
-    d.text((M, S * 0.875), "Разбор с источниками", font=foot, fill=SOFT)
+    footer = {"Практика": "Идеи на каждый день", "С улыбкой": "Немного юмора"}.get(category, "Разбор с источниками")
+    d.text((M, S * 0.875), footer, font=foot, fill=SOFT)
 
     img.convert("RGB").resize((OUT_SIZE, OUT_SIZE), Image.LANCZOS).save(out_path)
     return out_path
