@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from bot.telegram_client import send_photo
+from bot.telegram_delivery import send_photo_checked
 from bot.validate import validate_caption
 from bot.vk_client import html_caption_to_vk_text, post_to_wall
 
@@ -28,12 +28,14 @@ def main():
     validate_caption(caption)
     cover_path = str(BASE / "covers" / f"{slug}.png")
 
-    result = send_photo(cover_path, caption, chat=CHANNEL, bot_token=BOT_TOKEN)
+    result = send_photo_checked(cover_path, caption, chat=CHANNEL, bot_token=BOT_TOKEN)
     chat_username = result["result"]["chat"].get("username")
     msg_id = result["result"]["message_id"]
     print(f"Опубликовано в Telegram: https://t.me/{chat_username}/{msg_id}")
 
     try:
+        if result.get("reconciled"):
+            raise RuntimeError("Telegram delivery recovered; VK uses its independent schedule")
         vk_result = post_to_wall(
             html_caption_to_vk_text(caption),
             photo_path=cover_path,
