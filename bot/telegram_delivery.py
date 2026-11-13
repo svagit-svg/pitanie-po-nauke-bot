@@ -98,7 +98,17 @@ def send_photo_checked(photo_path, caption, chat=CHANNEL, bot_token=None):
         return existing
     try:
         result = send_photo(photo_path, caption, chat=chat, bot_token=bot_token)
-    except requests.RequestException:
+    except requests.RequestException as exc:
+        print("::warning::Telegram transport failure: " + type(exc).__name__)
+        if isinstance(exc, requests.HTTPError) and exc.response is not None:
+            print("::warning::Telegram HTTP status: " + str(exc.response.status_code))
+            try:
+                description = exc.response.json().get("description", "")
+                print("::warning::Telegram API: " + str(description)[:300], flush=True)
+            except ValueError:
+                pass
+            if 400 <= exc.response.status_code < 500:
+                raise RuntimeError('Telegram explicitly rejected send (HTTP %s); queue unchanged.' % exc.response.status_code) from None
         existing = _existing(recent_posts(chat), caption)
         if existing:
             print('::notice::Telegram delivery confirmed after transport error')
