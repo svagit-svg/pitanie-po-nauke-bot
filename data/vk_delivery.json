@@ -576,5 +576,285 @@
     "content_sha256": "9f279805a08e3f0cce769d81a8c7335abb3d690179f5d72be46f1f9081675980",
     "attempted_at": "2026-11-06T08:19:38.993970+00:00",
     "post_id": 109
+  },
+  "pitanie:229_salad_oil_absorption": {
+    "channel": "pitanie",
+    "slug": "229_salad_oil_absorption",
+    "publish_date": 1795240800,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "0eef2480f16bb5fa3e07aeb8511a5a2b362822145223c1c741fb7e35419f8223",
+    "attempted_at": "2026-11-16T07:11:52.370803+00:00",
+    "post_id": 165
+  },
+  "pitanie:234_meme_containers": {
+    "channel": "pitanie",
+    "slug": "234_meme_containers",
+    "publish_date": 1795266000,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "8a5674c26053a002e99cf14ceb91c390e51577bca98ae0555b9e38990383e6c8",
+    "attempted_at": "2026-11-16T07:11:55.682108+00:00",
+    "post_id": 166
+  },
+  "pitanie:230_large_pack_portions": {
+    "channel": "pitanie",
+    "slug": "230_large_pack_portions",
+    "publish_date": 1795327200,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "35a372ca660b5ee35ee811cdccda10928d8f9e4ba9f3e0770746960c51d7a248",
+    "attempted_at": "2026-11-16T07:11:59.047583+00:00",
+    "post_id": 167
+  },
+  "pitanie:231_cooked_grain_quiz": {
+    "channel": "pitanie",
+    "slug": "231_cooked_grain_quiz",
+    "publish_date": 1795352400,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "72b37f5c602c26fa78b35910fa980a147c4ca76e59b0d44a7c54c3fee0e4245c",
+    "attempted_at": "2026-11-16T07:12:02.322587+00:00",
+    "post_id": 168
+  },
+  "pitanie:236_igg_food_panels": {
+    "channel": "pitanie",
+    "slug": "236_igg_food_panels",
+    "publish_date": 1795413600,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "6a9bf8862011d4ef2bf9b85e986da19d9f5db63a80b6ea931b28dc36d23036b8",
+    "attempted_at": "2026-11-16T07:12:05.528127+00:00",
+    "post_id": 169
+  },
+  "pitanie:232_research_headline_check": {
+    "channel": "pitanie",
+    "slug": "232_research_headline_check",
+    "publish_date": 1795438800,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "b6fc8b26e0e99c3206c279b21962833954a88d129b536b9e41aafaf6d828a186",
+    "attempted_at": "2026-11-16T07:12:08.833547+00:00",
+    "post_id": 170
+  },
+  "pitanie:238_lactose_free_allergy": {
+    "channel": "pitanie",
+    "slug": "238_lactose_free_allergy",
+    "publish_date": 1795500000,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "0deb85873a93806b22f1fbab2b8902b0e4787ec0ad5471068c20121af2799c55",
+    "attempted_at": "2026-11-16T07:12:12.058597+00:00",
+    "post_id": 171
+  },
+  "pitanie:233_screen_meal_2026": {
+    "channel": "pitanie",
+    "slug": "233_screen_meal_2026",
+    "publish_date": 1795525200,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "b5a281c552884a8a3f987a6602d76699ee80e0748a7ea3e2d7ddb0e60aa23eb0",
+    "attempted_at": "2026-11-16T07:12:15.261083+00:00",
+    "post_id": 172
+  },
+  "pitanie:239_meme_kettle_cookie": {
+    "channel": "pitanie",
+    "slug": "239_meme_kettle_cookie",
+    "publish_date": 1795586400,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "79c2ea7488e32180143e2f4c0e2ea337219c37ba082ba03e8ab4f3de68432d92",
+    "attempted_at": "2026-11-16T07:12:18.553699+00:00",
+    "post_id": 173
+  },
+  "pitanie:237_supplement_ad_red_flags": {
+    "channel": "pitanie",
+    "slug": "237_supplement_ad_red_flags",
+    "publish_date": 1795611600,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "575075f5c847ff66574032229cda00a7daad240e199147ff51bfb30ef34f23a3",
+    "attempted_at": "2026-11-16T07:12:21.766644+00:00",
+    "post_id": 174
+  },
+  "pitanie:235_buffet_variety": {
+    "channel": "pitanie",
+    "slug": "235_buffet_variety",
+    "publish_date": 1795672800,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "5809609a675a2ff523c75b0ca45a33103e1dc64214527a680ec7f7b52b88b1ed",
+    "attempted_at": "2026-11-16T07:12:25.033619+00:00",
+    "post_id": 175
+  },
+  "pitanie:240_food_ban_stories": {
+    "channel": "pitanie",
+    "slug": "240_food_ban_stories",
+    "publish_date": 1795698000,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "45ebd5b066223442718e9392ba28c3819195f890adec062ccfb159abc369ca10",
+    "attempted_at": "2026-11-16T07:12:28.265231+00:00",
+    "post_id": 176
+  },
+  "pitanie:241_chicken_safety_card": {
+    "channel": "pitanie",
+    "slug": "241_chicken_safety_card",
+    "publish_date": 1795759200,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "0aada2604c59131fed671a3f89b0d0443a988ffebf532bc15a62deb13c72ec6d",
+    "attempted_at": "2026-11-16T07:12:31.472398+00:00",
+    "post_id": 177
+  },
+  "pitanie:242_food_news_discussion": {
+    "channel": "pitanie",
+    "slug": "242_food_news_discussion",
+    "publish_date": 1795784400,
+    "group_id": "241785077",
+    "status": "sent",
+    "content_sha256": "14109da84f0162ac976f07a4faef1dfc8ff569ef704042e153fd91346ca61f90",
+    "attempted_at": "2026-11-16T07:12:34.714157+00:00",
+    "post_id": 178
+  },
+  "blizko:219_meme_cables_budget": {
+    "channel": "blizko",
+    "slug": "219_meme_cables_budget",
+    "publish_date": 1795240800,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "fc8256f12589345864a7a8a33da1a67189781a5d071cd324faa0cd809ec5215d",
+    "attempted_at": "2026-11-16T07:12:37.948451+00:00",
+    "post_id": 129
+  },
+  "blizko:214_closeness_communication_bias": {
+    "channel": "blizko",
+    "slug": "214_closeness_communication_bias",
+    "publish_date": 1795266000,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "000a2c7bc4e46ed5d0e96ad4c6c0c3ce53a91b40a4576cec8160ae2173b48d18",
+    "attempted_at": "2026-11-16T07:12:41.170575+00:00",
+    "post_id": 130
+  },
+  "blizko:216_late_message_case": {
+    "channel": "blizko",
+    "slug": "216_late_message_case",
+    "publish_date": 1795327200,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "245302fb72ce2d6cb508ff880a7b81e5c7780a1649a0db55b3812ba780bdb106",
+    "attempted_at": "2026-11-16T07:12:44.403970+00:00",
+    "post_id": 131
+  },
+  "blizko:215_liking_gap": {
+    "channel": "blizko",
+    "slug": "215_liking_gap",
+    "publish_date": 1795352400,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "3c45c4be94c17de5545d5e846882503b35520bc55f907c0d6d0902d68ac61a5d",
+    "attempted_at": "2026-11-16T07:12:47.633202+00:00",
+    "post_id": 132
+  },
+  "blizko:217_transactive_memory": {
+    "channel": "blizko",
+    "slug": "217_transactive_memory",
+    "publish_date": 1795413600,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "ad0235fe85e94192f469f6009a8e3a8908c71edda02ce201c13acd50b971d3f9",
+    "attempted_at": "2026-11-16T07:12:50.864338+00:00",
+    "post_id": 133
+  },
+  "blizko:222_do_as_you_want_case": {
+    "channel": "blizko",
+    "slug": "222_do_as_you_want_case",
+    "publish_date": 1795438800,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "22a92ce3804739c09a70c420205111b5df648a13f7df532532ef58e6c1c48a67",
+    "attempted_at": "2026-11-16T07:12:54.222737+00:00",
+    "post_id": 134
+  },
+  "blizko:225_meme_one_episode": {
+    "channel": "blizko",
+    "slug": "225_meme_one_episode",
+    "publish_date": 1795500000,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "73800ca710e24b83e6f874273b7615645913396b691c00b1106bee6307cd1d5e",
+    "attempted_at": "2026-11-16T07:12:57.566968+00:00",
+    "post_id": 135
+  },
+  "blizko:218_compliment_meaning": {
+    "channel": "blizko",
+    "slug": "218_compliment_meaning",
+    "publish_date": 1795525200,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "f676372b76305f39965f05bde4a783fb0225141498fa98521e312efa13d9588e",
+    "attempted_at": "2026-11-16T07:13:00.790188+00:00",
+    "post_id": 136
+  },
+  "blizko:220_reaching_out_appreciation": {
+    "channel": "blizko",
+    "slug": "220_reaching_out_appreciation",
+    "publish_date": 1795586400,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "b466f56ef7567a38c39a350fc3c3f8de9a3b00ea74e3651cd5d7bef31f85a2c9",
+    "attempted_at": "2026-11-16T07:13:04.022997+00:00",
+    "post_id": 137
+  },
+  "blizko:223_desire_mismatch_conversation": {
+    "channel": "blizko",
+    "slug": "223_desire_mismatch_conversation",
+    "publish_date": 1795611600,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "b45abd19192f5e553a7ac82ef960397db549d9869def4beba74f54226cece470",
+    "attempted_at": "2026-11-16T07:13:07.297228+00:00",
+    "post_id": 138
+  },
+  "blizko:224_shared_ritual_agreement": {
+    "channel": "blizko",
+    "slug": "224_shared_ritual_agreement",
+    "publish_date": 1795672800,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "4d9524273d3447c1aa6efb6f0669e4398e5b16a2d4372a0f343ffb92169cc825",
+    "attempted_at": "2026-11-16T07:13:10.534165+00:00",
+    "post_id": 139
+  },
+  "blizko:226_tiredness_quiz": {
+    "channel": "blizko",
+    "slug": "226_tiredness_quiz",
+    "publish_date": 1795698000,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "d6e34e80809409f7e365ae230ab81cbc33d5f19d8d5c9f9bc37e04ae6ddf1a6e",
+    "attempted_at": "2026-11-16T07:13:13.783986+00:00",
+    "post_id": 140
+  },
+  "blizko:221_friends_to_lovers": {
+    "channel": "blizko",
+    "slug": "221_friends_to_lovers",
+    "publish_date": 1795759200,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "959b46e26a17b9c916d0b74b39d123e87bcdea5ccbe25254dc2127a4b913197d",
+    "attempted_at": "2026-11-16T07:13:17.058576+00:00",
+    "post_id": 141
+  },
+  "blizko:227_care_small_signs": {
+    "channel": "blizko",
+    "slug": "227_care_small_signs",
+    "publish_date": 1795784400,
+    "group_id": "242172167",
+    "status": "sent",
+    "content_sha256": "060966633e97165f82550776aec1ae98c59cd53ef7ae1f96ba3109a3cccf6b66",
+    "attempted_at": "2026-11-16T07:13:20.308275+00:00",
+    "post_id": 142
   }
 }
