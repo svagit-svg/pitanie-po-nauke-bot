@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from bot.telegram_delivery import send_photo_checked
-from bot.validate import validate_caption
+from bot.validate import validate_caption, validate_pitanie_cover
 from bot.vk_client import html_caption_to_vk_text, post_to_wall
 
 QUEUE_PATH = Path(__file__).resolve().parent.parent / "queue.json"
@@ -21,6 +21,7 @@ def main():
     caption = Path(f"posts/{slug}_caption.html").read_text(encoding="utf-8")
     validate_caption(caption)
     cover_path = f"covers/{slug}.png"
+    validate_pitanie_cover(cover_path)
 
     result = send_photo_checked(cover_path, caption)
     chat_username = result["result"]["chat"].get("username")

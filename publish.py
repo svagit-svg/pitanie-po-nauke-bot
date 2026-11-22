@@ -1,6 +1,6 @@
 import sys
 from bot.telegram_client import send_photo, delete_message
-from bot.validate import validate_caption
+from bot.validate import validate_caption, validate_pitanie_cover
 
 if __name__ == "__main__":
     slug = sys.argv[1]
@@ -9,6 +9,7 @@ if __name__ == "__main__":
     with open(f"posts/{slug}_caption.html", encoding="utf-8") as f:
         caption = f.read()
     validate_caption(caption)
+    validate_pitanie_cover(f"covers/{slug}.png")
 
     for msg_id in delete_ids:
         delete_message(msg_id)
